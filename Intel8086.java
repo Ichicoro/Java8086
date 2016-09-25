@@ -15,29 +15,30 @@ public class Intel8086() {
             http://aturing.umcs.maine.edu/~meadow/courses/cos335/8086-instformat.pdf
         
         [byte][7][6][5][4][3][2][1]
-           [1][   opcode    ][d][w]     opcode byte
-           [2][ mod][  reg  ][r/m ]     addressing mode byte
-           [3][      optional     ]     low disp, addr ,or data
-           [4][      optional     ]     high disp, addr, or data
-           [5][      optional     ]     low data
-           [6][      optional     ]     high data
+          [1] [   opcode    ][d][w]     opcode byte
+          [2] [ mod][  reg  ][r/m ]     addressing mode byte
+          [3] [      optional     ]     low disp, addr ,or data
+          [4] [      optional     ]     high disp, addr, or data
+          [5] [      optional     ]     low data
+          [6] [      optional     ]     high data
 
         [prefix] OPCODE [addr mode] [low disp] [high disp] [low data] [high data]
 
         */
 
-    private int op;
+    private int op;     // op (instruction) code
 
-    private int d;
+    private int d;      // direction from/to register
 
-    private int w;
+    private int w;      // word/byte op
 
-    private int mod;
+    private int mod;    // displacement length 
 
-    private int reg;
+    private int reg;    //
 
-    private int r/m;
+    private int rm;     //
 
+    private int ea;     // effective address
 
 
 
