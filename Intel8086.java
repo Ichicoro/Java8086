@@ -1,4 +1,47 @@
 public class Intel8086() {
+
+
+    private static int signconv(final int w, final int x) {
+        return x << 32 - BITS[w] >> 32 - BITS[w];
+    }
+
+
+    /* used to count clock cycles */
+    private long clocks;
+
+
+
+    /** 8086 Istruction Encoding
+            http://aturing.umcs.maine.edu/~meadow/courses/cos335/8086-instformat.pdf
+        
+        [byte][7][6][5][4][3][2][1]
+           [1][   opcode    ][d][w]     opcode byte
+           [2][ mod][  reg  ][r/m ]     addressing mode byte
+           [3][      optional     ]     low disp, addr ,or data
+           [4][      optional     ]     high disp, addr, or data
+           [5][      optional     ]     low data
+           [6][      optional     ]     high data
+
+        [prefix] OPCODE [addr mode] [low disp] [high disp] [low data] [high data]
+
+        */
+
+    private int op;
+
+    private int d;
+
+    private int w;
+
+    private int mod;
+
+    private int reg;
+
+    private int r/m;
+
+
+
+
+
 	
 	/* Let's define registers */
 
@@ -54,8 +97,11 @@ public class Intel8086() {
 
 
 
-
 	/* 8086 FLAGS */
+
+
+    private int flags;
+
 
 	/**
      * CF (carry flag)
@@ -159,5 +205,42 @@ public class Intel8086() {
 
 
     
+    /* Instruction queue */
+    private final int[]     queue       = new int[6];
+
+
+
+    /* Definition of the memory */
+    protected final int[]   memory      = new int[0x100000];
+
+
+    private int getAddr(final int seg, final int off) {
+        return (seg << 4) + off;
+    }
+
+
+
+    // reset() resets the CPU to its default state
+    public void reset() {
+        flags = 0;
+        ip = 0x0000;
+        cs = 0xffff;
+        ds = 0x0000;
+        ss = 0x0000;
+        es = 0x0000;
+        for (int z=1; z<6; z++) {
+            queue[z] = 0;
+        }
+        clocks = 0;
+    }
+
+
+    private void setFlag(final int flag, final boolean set) {
+        if (set) {
+            flags |= flag;
+        } else {
+            flags &= ~flag;
+        }
+    }
 
 }
