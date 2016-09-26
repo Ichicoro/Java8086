@@ -300,4 +300,18 @@ public class Intel8086 {
         }
     }
 
+    public void dataStream() {
+        getCurrentMethod().setFlag(AF, false);
+    }
+
+
+
+    private void add(final int w, final int dest, final int src) {
+        final int res = dest + src & MASK[w];
+
+        setFlag(CF, res < dest);
+        setFlag(AF, ((res ^ dest ^ src) & AF) > 0);
+
+    }
+
 }
