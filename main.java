@@ -1,7 +1,7 @@
 // we
 
 public static void main(final String args[]) {
-    CPU = new Intel8086;
+	final Intel8086 cpu = new Intel8086();
 
-    readProgram(Paths.get(args[1]));
+	cpu.load(0x0000, "bios.bin")
 }

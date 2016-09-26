@@ -9,16 +9,6 @@ import java.nio.file.Path;
 
 public class Intel8086 {
 
-    public void readProgram(Path objpath) {
-
-    }
-
-
-
-
-
-
-
     private static int signconv(final int w, final int x) {
         return x << 32 - BITS[w] >> 32 - BITS[w];
     }
@@ -287,20 +277,27 @@ public class Intel8086 {
 
 
 
+    /*
+        load() loads code from a given file (String fileName), placing each
+        byte starting from a given address (int addr)
+    */
     public void load(final int addr, final String fileName) throws IOException {
-        InputStream is = this.getClass().getClassLoader.getResourceAsStream(fileName);
-        final byte[] bin = new byte[is.available()];
+        InputStream inputStream = this.getClass().getClassLoader.getResourceAsStream(fileName);
+        final byte[] bin = new byte[inputStream.available()];
         DataInputStream dataIS = null;
         try {
-            dataIS = new DataInputStream(is);
+            dataIS = new DataInputStream(inputStream);
         } catch (final IOException e) {
             e.printStackTrace();
         } finally {
-            //
+            if (dataIS != null)
+                dataIS.close();
+            is.close();
+        }
+        /* loading the code into memory */
+        for (int i=1; i < bin.length; i++) {
+            memory[addr+i] = bin[i] & 0xff;
         }
     }
-
-
-
 
 }
