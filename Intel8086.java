@@ -1,4 +1,22 @@
-public class Intel8086() {
+
+/** :D
+    Intel 8086 Emulator
+*/
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
+public class Intel8086 {
+
+    public void readProgram(Path objpath) {
+
+    }
+
+
+
+
+
 
 
     private static int signconv(final int w, final int x) {
@@ -16,7 +34,7 @@ public class Intel8086() {
         
         [byte][7][6][5][4][3][2][1]
           [1] [   opcode    ][d][w]     opcode byte
-          [2] [ mod][  reg  ][r/m ]     addressing mode byte
+          [2] [mode][  reg  ][r/m ]     addressing mode byte
           [3] [      optional     ]     low disp, addr ,or data
           [4] [      optional     ]     high disp, addr, or data
           [5] [      optional     ]     low data
@@ -24,7 +42,30 @@ public class Intel8086() {
 
         [prefix] OPCODE [addr mode] [low disp] [high disp] [low data] [high data]
 
-        */
+        d specifies the direction of data movement
+
+        if d=1 then data moves from r/m to reg
+        if d=0 then data moves from reg to r/m
+
+        
+        w (word/byte) specifies operand size
+
+        if w=1 then data is word    (16 bits)
+        if w=0 then data is byte     (8 bits)
+
+
+
+        [E X A M P L E]
+
+        Instruction     16-bit code
+        mov ax,[bx]     8B 07
+        mov eax,[bx]    66 8B 07
+        mov ax,[ebx]    67 8B 03
+        mov eax,[ebx]   67 66
+
+    */
+
+
 
     private int op;     // op (instruction) code
 
@@ -44,7 +85,7 @@ public class Intel8086() {
 
 
 	
-	/* Let's define registers */
+	/* 8086 REGISTERS */
 
 	/* AX */
 	private int ah, al;
@@ -61,7 +102,7 @@ public class Intel8086() {
 
 
 
-	/* Let's define pointers */
+	/* 8086 POINTERS */
 
 	/* Source Index - SI */
 	private int si;
@@ -243,5 +284,23 @@ public class Intel8086() {
             flags &= ~flag;
         }
     }
+
+
+
+    public void load(final int addr, final String fileName) throws IOException {
+        InputStream is = this.getClass().getClassLoader.getResourceAsStream(fileName);
+        final byte[] bin = new byte[is.available()];
+        DataInputStream dataIS = null;
+        try {
+            dataIS = new DataInputStream(is);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        } finally {
+            //
+        }
+    }
+
+
+
 
 }
